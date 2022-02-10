@@ -1,6 +1,6 @@
 const lat = 58.7984;
 const lng = 17.8081;
-const params = 'windSpeed';
+const params = 'cloudCover';
 
 fetch(`https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&params=${params}`, {
   headers: {
