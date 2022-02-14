@@ -10,8 +10,13 @@ const client = new Client({
 
 async function connect() : Promise<any> {
     await client.connect();
-    const res = await client.query('SELECT $1::text as message', ['Hello world!']);
-    console.log(res.rows[0].message); // Hello world!
+}
+
+async function end() {
     await client.end();
 }
-export default connect;
+
+export {
+    connect,
+    end
+};
