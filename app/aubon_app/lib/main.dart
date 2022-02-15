@@ -25,12 +25,8 @@ class MyApp extends StatelessWidget {
         body: FlutterMap(
           options: MapOptions(center: LatLng(59.86, 17.63), minZoom: 10.0),
           layers: [
-            TileLayerOptions(urlTemplate: mapUrl,
-                //"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c'])
+            TileLayerOptions(urlTemplate: mapUrl, subdomains: ['a', 'b', 'c'])
           ],
-          //body: const Center(
-          //child: Text('Hello World'),
         ),
       ),
     );
