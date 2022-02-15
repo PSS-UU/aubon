@@ -19,6 +19,16 @@
 7. Setup the database with `db-migrate up`
 8. Run `npm start` to start the server
 
+### Updating the database
+
+If you need to make a change to the database (add a column, add a key etc.) you do so with db-migrate. 
+With db-migrate you create `migrations` where you write the changes you want to make to the database.
+That way those changes can get committed and everyone can update their database to the correct version.
+
+To create a migration, run `db-migrate create <name_of_the_migration_file>` which creates the migration file.
+Instructions for what to write in the migration can be found in their [documentation](https://db-migrate.readthedocs.io/en/latest/API/SQL/).
+
+To apply recent migrations, run `db-migrate up`
 
 ## Installing Flutter for the app
 
