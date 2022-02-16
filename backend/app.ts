@@ -19,6 +19,7 @@ db_connect().then(() => {
         const long = req.body.longitude;
         const lat = req.body.latitude;
         const rating = req.body.auroraRating;
+        const ID = req.body.userID;
 
         if (rating < 0 || rating > 5) {
             res.status(400);
@@ -32,7 +33,7 @@ db_connect().then(() => {
             return;
         }
 
-        insertReport(long, lat, rating).then((success: boolean) => {
+        insertReport(long, lat, rating, ID).then((success: boolean) => {
             if (!success) {
                 res.status(500);
             }
