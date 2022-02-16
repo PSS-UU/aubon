@@ -12,11 +12,28 @@ async function connect() : Promise<any> {
     await client.connect();
 }
 
+async function insertReport(long: Number, lat : Number, rating: Number): Promise<boolean> {
+    const query = `
+        INSERT INTO reports(longitude, latitude, rating, timestamp)
+        VALUES ($1, $2, $3, $4)
+    `;
+    const values = [long, lat, rating, new Date().toISOString()];
+    const result = await client
+        .query(query, values)
+        .then(() => true)
+        .catch((e) => {
+            console.error(e.stack);
+            return false;
+        });
+    return result;
+}
+
 async function end() {
     await client.end();
 }
 
 export {
     connect,
-    end
+    end,
+    insertReport
 };

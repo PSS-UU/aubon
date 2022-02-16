@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { connect as db_connect } from './database';
+import { connect as db_connect, insertReport } from './database';
 
 const app = express();
 const port = 3000;
@@ -19,8 +19,9 @@ db_connect().then(() => {
         const long = req.body.longitude;
         const lat = req.body.latitude;
         const rating = req.body.auroraRating;
-        const timestamp = Date.now();
-        res.send([long, lat, rating, timestamp].join(', '));
+        insertReport(long, lat, rating).then((success: boolean) => {
+            res.send(success);
+        });
     });
 
     app.listen(port, () => {
