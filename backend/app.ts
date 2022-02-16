@@ -23,6 +23,13 @@ db_connect().then(() => {
         if (rating < 0 || rating > 5) {
             res.status(400);
             res.send('Rating must be an integer between 0 and 5');
+            return;
+        }
+
+        if (long < -180 || long > 180 || lat < -90 || lat > 90) {
+            res.status(400);
+            res.send('Invalid coordinates');
+            return;
         }
 
         insertReport(long, lat, rating).then((success: boolean) => {
