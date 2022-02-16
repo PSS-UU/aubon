@@ -5,7 +5,7 @@
 1. Install postgresql
     - Ubuntu: <https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart>
     - Mac: <https://www.postgresqltutorial.com/install-postgresql-macos/>
-2. Create a database called `aubon` in postgresql
+2. Create a database called `aubon` in postgresql. If you are using Ubuntu for windos (WSL) you need to manually start the database after installing it by running `sudo service postgresql start`.
     - Ubuntu: `createdb aubon`
     - Mac: use the application pgAdmin
 3. Run `cd backend`
@@ -17,7 +17,9 @@
 5. Run `npm install`
 6. Install db-migrate `npm install -g db-migrate`
 7. Setup the database with `db-migrate up`
-8. Run `npm start` to start the server
+8. Run `npm start` to start the server. 
+
+If you are running Ubuntu for Windows (WSL) you need to run `sudo service postgresql start` to start the database the first time you start your terminal.
 
 ### Updating the database
 
