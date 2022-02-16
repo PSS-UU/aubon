@@ -19,7 +19,16 @@ db_connect().then(() => {
         const long = req.body.longitude;
         const lat = req.body.latitude;
         const rating = req.body.auroraRating;
+
+        if (rating < 0 || rating > 5) {
+            res.status(400);
+            res.send('Rating must be an integer between 0 and 5');
+        }
+
         insertReport(long, lat, rating).then((success: boolean) => {
+            if (!success) {
+                res.status(500);
+            }
             res.send(success);
         });
     });
