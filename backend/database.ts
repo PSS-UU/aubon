@@ -8,7 +8,7 @@ const client = new Client({
     port: Number(process.env.DB_PORT) || 5432
 });
 
-async function connect() : Promise<any> {
+async function connect() : Promise<void> {
     await client.connect();
 }
 
