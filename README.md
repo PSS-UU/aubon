@@ -3,8 +3,12 @@
 ## Installing backend
 
 1. Install postgresql
-    - Ubuntu: <https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart>
-    - Mac: <https://www.postgresqltutorial.com/install-postgresql-macos/>
+
+**Note:** When creating the user you must create the user with a password (`createuser --interactive -P`)! This is different in the instructions below
+
+- Ubuntu: <https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart>
+- Mac: <https://www.postgresqltutorial.com/install-postgresql-macos/>
+    
 2. Create a database called `aubon` in postgresql. If you are using Ubuntu for windos (WSL) you need to manually start the database after installing it by running `sudo service postgresql start`.
     - Ubuntu: `createdb aubon`
     - Mac: use the application pgAdmin
