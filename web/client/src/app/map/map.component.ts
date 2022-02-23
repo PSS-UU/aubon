@@ -42,8 +42,6 @@ export class MapComponent implements AfterViewInit {
     private map: any;
     private selfMarker: any;
 
-
-
     private initMap(): void {
         this.map = L.map('map', {
             center: [centerCoords.lat, centerCoords.long],
@@ -84,8 +82,8 @@ export class MapComponent implements AfterViewInit {
 
         this.drawReports(reportList);
 
-    }
 
+    }
 
     getLocation(): void {
         if (navigator.geolocation) {
@@ -101,13 +99,11 @@ export class MapComponent implements AfterViewInit {
 
 
     updateSelfMarker(latitude: number, longitude: number) {
-        console.log("Lat: " + latitude + " Long: " + longitude)
         this.selfMarker.addTo(
             this.map
         ).bindPopup(
             "This is you!"
         );
-
         this.selfMarker.setLatLng([latitude, longitude])
     }
 
