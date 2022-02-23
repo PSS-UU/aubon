@@ -1,11 +1,25 @@
 from PIL import Image
+import json
 
-# PIL accesses images in Cartesian co-ordinates, so it is Image[columns, rows]
-img = Image.new('RGB', (360, 180), "black")  # create a new black image
-pixels = img.load()  # create the pixel map
 
-for i in range(img.size[0]):    # for every col:
-    for j in range(img.size[1]):    # For every row
-        pixels[i, j] = (i, j, 100)  # set the colour accordingly
+# Opening JSON file
+f = open('latest.json')
 
-img.show()
+# load json data into memore
+data = json.load(f)
+
+# Create blank image
+img = Image.new('RGBA', (360, 180), "#ffffff00")
+
+# Create pixel map
+pixels = img.load()
+
+# map coordinates to respective pixel and set color to green with varying opacity
+for i in data['coordinates']:
+    pixels[i[0], min(i[1]+90, 179)] = (123, 173, 123, i[2]*30)
+
+# Closing file
+f.close()
+
+# Save image to disk
+img.save("borealis_cover.png", "PNG")
