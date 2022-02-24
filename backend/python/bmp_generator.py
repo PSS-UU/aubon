@@ -1,6 +1,10 @@
 from PIL import Image
 import json
+import requests
 
+url = 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json'
+r = requests.get(url, allow_redirects=True)
+open('latest.json', 'wb').write(r.content)
 
 # Opening JSON file
 f = open('latest.json')
