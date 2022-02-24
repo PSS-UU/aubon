@@ -40,7 +40,6 @@ linter:
     - unnecessary_overrides
     - unnecessary_lambdas
     # formatting
-    - lines_longer_than_80_chars
     - curly_braces_in_flow_control_structures
     # doc comments
     - slash_for_doc_comments
