@@ -134,3 +134,4 @@ dist
 backend/python/latest.json
 backend/python/borealis_cover.png
 backend/python/history/*
+backend/python/venv
