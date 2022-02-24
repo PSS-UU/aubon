@@ -18,10 +18,8 @@ function generateUpdatedBitmap(): void {
 
 function moveLatestResultToHistory(): void {
     const rawdata = fs.readFileSync('python/latest.json');
-    console.log(rawdata.toString('utf8', 0, 100));
     const data = JSON.parse(rawdata.toString());
     let date = data['Observation Time'];
-    console.log(date);
     date = date.substring(0, 13) + '.' + date.substring(14);
     date = date.substring(0, 16) + '.' + date.substring(17);
     fs.rename('python/latest.png', `python/history/${date}.png`, (err) => {
