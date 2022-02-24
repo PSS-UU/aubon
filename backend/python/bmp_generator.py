@@ -26,4 +26,4 @@ for i in data['coordinates']:
 f.close()
 
 # Save image to disk
-img.save("borealis_cover.png", "PNG")
+img.save("latest.png", "PNG")
