@@ -166,7 +166,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     drawReports(reports: Report[]) {
-        for (var index in reports) {
+        for (const index in reports) {
             L.marker([reports[index]['latitude'], reports[index]['longitude']]
             ).setIcon(
                 this.selectIcon(reports[index]['rating'])
