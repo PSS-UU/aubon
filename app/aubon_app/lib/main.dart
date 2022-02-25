@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'Secondpage.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,19 +18,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Aubon',
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Welcome to Flutter'),
         ),
-        body: FlutterMap(
-          options: MapOptions(center: LatLng(59.86, 17.63), minZoom: 10.0),
-          layers: [
-            TileLayerOptions(urlTemplate: mapUrl, subdomains: ['a', 'b', 'c'])
+        body: Stack(
+          children: [
+            FlutterMap(
+              options: MapOptions(center: LatLng(59.86, 17.63), minZoom: 10.0),
+              layers: [
+                TileLayerOptions(
+                    urlTemplate: mapUrl, subdomains: ['a', 'b', 'c'])
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: ElevatedButton(
+                  child: const Text('Rate the Northern Lights'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new SecondPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
