@@ -1,9 +1,7 @@
-
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { interval, reduce } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
 
 
 @Component({
