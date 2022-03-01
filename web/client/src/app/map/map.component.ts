@@ -18,21 +18,34 @@ export class MapComponent implements AfterViewInit {
     private initMap(): void {
         this.map = L.map('map', {
             center: [59.85856101848495, 17.638924284191386],
-            zoom: 12,
-            minZoom: 6,
+            zoom: 3,
+            minZoom: 3,
             maxZoom: 12,
+            maxBounds: [[-90, -360], [90, 360]],
+            maxBoundsViscosity: 1.0
         })
-
-
 
         const tiles = L.tileLayer('https://api.mapbox.com/styles/v1/albinantti/ckzh3jx4r009q14l8eb32614u/tiles/{z}/{x}/{y}?access_token=' + environment.token, {
             attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         });
 
-
         tiles.addTo(this.map);
 
-
+        L.imageOverlay(
+            environment.path_to_aurora_overlay,
+            [[90, -630], [-90, -270]],
+            { errorOverlayUrl: "assets/images/aurora_error.png" }
+        ).addTo(this.map);
+        L.imageOverlay(
+            environment.path_to_aurora_overlay,
+            [[90, -270], [-90, 90]],
+            { errorOverlayUrl: "assets/images/aurora_error.png" }
+        ).addTo(this.map);
+        L.imageOverlay(
+            environment.path_to_aurora_overlay,
+            [[90, 90], [-90, 450]],
+            { errorOverlayUrl: "assets/images/aurora_error.png" }
+        ).addTo(this.map);
     }
 
 
