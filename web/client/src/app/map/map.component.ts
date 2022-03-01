@@ -15,12 +15,18 @@ export class MapComponent implements AfterViewInit {
     private map: any;
     private selfMarker: any;
 
+    // private topLeft: L.Point = new L.Point(90, -180);
+    // private bottomRight: L.Point = new L.Point(-90, 180);
+    // private bounds: L.LatLngBounds = new L.Bounds(topLeft, bottomRight);
+
     private initMap(): void {
         this.map = L.map('map', {
             center: [59.85856101848495, 17.638924284191386],
-            zoom: 12,
-            minZoom: 6,
+            zoom: 3,
+            minZoom: 3,
             maxZoom: 12,
+            maxBounds: [[-90, -360], [90, 360]],
+            maxBoundsViscosity: 1.0
         })
 
 
@@ -32,6 +38,21 @@ export class MapComponent implements AfterViewInit {
 
         tiles.addTo(this.map);
 
+        L.imageOverlay(
+            environment.path_to_aurora_overlay,
+            [[90, -630], [-90, -270]],
+            { errorOverlayUrl: "assets/images/aurora_error.png" }
+        ).addTo(this.map);
+        L.imageOverlay(
+            environment.path_to_aurora_overlay,
+            [[90, -270], [-90, 90]],
+            { errorOverlayUrl: "assets/images/aurora_error.png" }
+        ).addTo(this.map);
+        L.imageOverlay(
+            environment.path_to_aurora_overlay,
+            [[90, 90], [-90, 450]],
+            { errorOverlayUrl: "assets/images/aurora_error.png" }
+        ).addTo(this.map);
 
     }
 
