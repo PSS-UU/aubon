@@ -16,11 +16,11 @@ export class MapComponent implements AfterViewInit {
     private initMap(): void {
         this.map = L.map('map', {
             center: [59.85856101848495, 17.638924284191386],
-            zoom: 3,
-            minZoom: 3,
+            zoom: 12,
+            minZoom: 2,
             maxZoom: 12,
             maxBounds: [[-90, -360], [90, 360]],
-            maxBoundsViscosity: 1.0
+            maxBoundsViscosity: 0.75
         })
 
         const tiles = L.tileLayer('https://api.mapbox.com/styles/v1/albinantti/ckzh3jx4r009q14l8eb32614u/tiles/{z}/{x}/{y}?access_token=' + environment.token, {
