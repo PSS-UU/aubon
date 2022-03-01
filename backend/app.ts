@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import fs from 'fs';
+import path from 'path';
 import { connect as db_connect, insertReport } from './database';
 
 const app = express();
@@ -64,6 +65,10 @@ db_connect().then(() => {
             }
             res.send(success);
         });
+    });
+
+    app.get('/latest.png', (req, res) => {
+        res.sendFile('python/latest.png', { root: path.resolve(__dirname, '..') });
     });
 
     app.listen(port, () => {
