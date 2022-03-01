@@ -19,16 +19,28 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Aubon',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Welcome to Flutter'),
-        ),
-        body: FlutterMap(
-          options: MapOptions(center: LatLng(59.86, 17.63), minZoom: 10.0),
-          layers: [
-            TileLayerOptions(urlTemplate: mapUrl, subdomains: ['a', 'b', 'c'])
-          ],
-        ),
-      ),
+          appBar: AppBar(
+            title: const Text('Aubon'),
+          ),
+          body: Stack(children: <Widget>[
+            FlutterMap(
+              options: MapOptions(center: LatLng(59.86, 17.63), maxZoom: 10.0),
+              layers: [
+                TileLayerOptions(
+                    urlTemplate: mapUrl, subdomains: ['a', 'b', 'c']),
+                OverlayImageLayerOptions(
+                  overlayImages: [
+                    OverlayImage(
+                      bounds: LatLngBounds(LatLng(90, -180), LatLng(-90, 180)),
+                      imageProvider:
+                          const AssetImage('assets/images/borealis_cover.png'),
+                      opacity: 0.7,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ])),
     );
   }
 }
