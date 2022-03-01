@@ -28,6 +28,27 @@ async function insertReport(long: Number, lat : Number, rating: Number, ID: Numb
     return result;
 }
 
+async function getReports(): Promise<any> {
+    const currentDateObj = new Date();
+    const numberOfMlSeconds = currentDateObj.getTime();
+    const removeMlSeconds = 6 * 60 * 60 * 1000; // 6 hours
+    const cutoffTime = new Date(numberOfMlSeconds - removeMlSeconds).toISOString();
+
+    const query = `
+    SELECT * FROM reports
+    WHERE TIMESTAMP > $1
+    `;
+    const values = [cutoffTime];
+    const result = await client
+        .query(query, values)
+        .then((res) => res)
+        .catch((e) => {
+            console.error(e.stack);
+            return null;
+        });
+    return result;
+}
+
 async function end() {
     await client.end();
 }
@@ -35,5 +56,6 @@ async function end() {
 export {
     connect,
     end,
-    insertReport
+    insertReport,
+    getReports
 };
