@@ -14,15 +14,15 @@ app.use(bodyParser.json());
 
 function generateUpdatedBitmap(): void {
     const python = spawn('python3', ['bmp_generator.py'], { cwd: 'python' });
-    python.on('close', (code) => { return; });
+    python.on('close', (code) => { });
 }
 
 function moveLatestResultToHistory(): void {
     const rawdata = fs.readFileSync('python/latest.json');
     const data = JSON.parse(rawdata.toString());
     let date = data['Observation Time'];
-    date = date.substring(0, 13) + '.' + date.substring(14);
-    date = date.substring(0, 16) + '.' + date.substring(17);
+    date = `${date.substring(0, 13)}.${date.substring(14)}`;
+    date = `${date.substring(0, 16)}.${date.substring(17)}`;
     fs.rename('python/latest.png', `python/history/${date}.png`, (err) => {
         if (err) console.log(`ERROR: ${err}`);
     });
@@ -68,7 +68,12 @@ db_connect().then(() => {
     });
 
     app.get('/latest.png', (req, res) => {
-        res.sendFile('python/latest.png', { root: path.resolve(__dirname, '..') });
+        res.sendFile('python/latest.png', { root: path.resolve(__dirname, '..') }, (err) => {
+            if (err) {
+                res.status(404);
+                res.send('File not found');
+            }
+        });
     });
 
     app.listen(port, () => {
