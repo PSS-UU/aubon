@@ -56,6 +56,15 @@ export class MapComponent implements AfterViewInit {
         interval(5000).subscribe(x => {
             this.getLocation();
         });
+        const reportURL = environment.url + "/get-reports";
+
+        async function loadReports() {
+            const response = await fetch(reportURL);
+            const reports = await response.json();
+            console.log(reports);
+        }
+
+        loadReports();
     }
 
 
