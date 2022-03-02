@@ -4,13 +4,18 @@ import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { connect as db_connect, insertReport } from './database';
+import { connect as db_connect, insertReport, getReports } from './database';
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
 function generateUpdatedBitmap(): void {
     const python = spawn('python3', ['bmp_generator.py'], { cwd: 'python' });
@@ -64,6 +69,15 @@ db_connect().then(() => {
                 res.status(500);
             }
             res.send(success);
+        });
+    });
+
+    app.get('/get-reports', (req, res) => {
+        getReports().then((result: any) => {
+            if (result === null) {
+                res.status(500);
+            }
+            res.send(result.rows);
         });
     });
 
