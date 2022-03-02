@@ -1,0 +1,37 @@
+version: '3.8'
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+
+services:
+  aubon-db:
+    image: postgres:14.2-alpine3.15
+    volumes:
+      - db_data:/var/lib/postgresql
+    environment:
+      - POSTGRES_USER=aubon
+      - POSTGRES_PASSWORD=aubon
+      - POSTGRES_DB=aubon
+      - POSTGRES_INITDB_ARGS=--lc-collate='sv_SE.UTF-8'
+    networks:
+      - backend
+
+  aubon-backend:
+    build:
+      context: .
+      target: backend
+    volumes:
+      - ./backend:/backend
+    container_name: aubon-backend
+    image: aubon-backend:1.0.0
+    depends_on:
+      - "aubon-db"
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    networks:
+      - backend
