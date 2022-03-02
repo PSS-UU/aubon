@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { connect as db_connect, insertReport } from './database';
+import { connect as db_connect, insertReport, getReports } from './database';
 
 const app = express();
 const port = 3000;
@@ -64,6 +64,15 @@ db_connect().then(() => {
                 res.status(500);
             }
             res.send(success);
+        });
+    });
+
+    app.get('/get-reports', (req, res) => {
+        getReports().then((result: any) => {
+            if (result === null) {
+                res.status(500);
+            }
+            res.send(result.rows);
         });
     });
 
