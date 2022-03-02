@@ -5,12 +5,13 @@ import { environment } from 'src/environments/environment';
 
 
 type Report = {
-    user_id: number;
-    rating: 0 | 1 | 2 | 3 | 4 | 5 ;
-    time: string;
+    id: number;
+    rating: 0 | 1 | 2 | 3 | 4 | 5;
+    timestamp: string;
+    image: string | null;
     longitude: number;
     latitude: number;
-  };
+};
 
 type Coordinate = {
     lat: number;
@@ -24,12 +25,12 @@ let centerCoords: Coordinate = {
 
 //TODO: Replace this list with an api call
 let reportList: Report[] = [
-    {user_id: 1, rating: 0, time: "just now", longitude: 17.61, latitude: 59.861},
-    {user_id: 2, rating: 1, time: "just now", longitude: 17.62, latitude: 59.862},
-    {user_id: 3, rating: 2, time: "just now", longitude: 17.63, latitude: 59.863},
-    {user_id: 4, rating: 3, time: "yesterday", longitude: 17.65, latitude: 59.84},
-    {user_id: 5, rating: 4, time: "three hours ago", longitude: 17.59, latitude: 59.843},
-    {user_id: 6, rating: 5, time: "just now", longitude: 17.64, latitude: 59.865},
+    // { id: 1, rating: 0, time: "just now", image: null, longitude: 17.61, latitude: 59.861 },
+    // { id: 2, rating: 1, time: "just now", image: null, longitude: 17.62, latitude: 59.862 },
+    // { id: 3, rating: 2, time: "just now", image: null, longitude: 17.63, latitude: 59.863 },
+    // { id: 4, rating: 3, time: "yesterday", image: null, longitude: 17.65, latitude: 59.84 },
+    // { id: 5, rating: 4, time: "three hours ago", image: null, longitude: 17.59, latitude: 59.843 },
+    // { id: 6, rating: 5, time: "just now", image: null, longitude: 17.64, latitude: 59.865 },
 ]
 
 @Component({
@@ -46,7 +47,7 @@ export class MapComponent implements AfterViewInit {
         this.map = L.map('map', {
             center: [centerCoords.lat, centerCoords.long],
             zoom: 12,
-            minZoom: 2,
+            minZoom: 3,
             //maxZoom: 12,
         })
 
@@ -62,6 +63,13 @@ export class MapComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.initMap();
+        let reportLayer = L.layerGroup().addTo(this.map);
+
+        async function loadReports() {
+            const response = await fetch(environment.url + "/get-reports");
+            const reports = await response.json();
+            reportList = reports;
+        }
 
         var userMapIcon = L.icon({
             iconUrl: 'assets/images/user-astronaut-solid.svg',
@@ -70,20 +78,19 @@ export class MapComponent implements AfterViewInit {
             popupAnchor: [0, -12],
         });
 
-
-
         this.selfMarker = L.marker([59.858, 17.639],
             { icon: userMapIcon }
         )
 
         interval(5000).subscribe(x => {
+            reportLayer.clearLayers();
+            loadReports();
             this.getLocation();
+            console.log(reportList);
+            this.drawReports(reportList, reportLayer);
         });
-
-        this.drawReports(reportList);
-
-
     }
+
 
     getLocation(): void {
         if (navigator.geolocation) {
@@ -146,7 +153,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     selectIcon(number: number) {
-        switch(number){
+        switch (number) {
             case 0:
                 return this.reportIcon0;
             case 1:
@@ -165,14 +172,15 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
-    drawReports(reports: Report[]) {
+
+    drawReports(reports: Report[], layer: any) {
         for (const index in reports) {
             L.marker([reports[index]['latitude'], reports[index]['longitude']]
             ).setIcon(
                 this.selectIcon(reports[index]['rating'])
             ).bindPopup(
-                `${reports[index]['rating']}/5 reported ${reports[index]['time']}.`
-            ).addTo(this.map);
+                `${reports[index]['rating']}/5 reported ${reports[index]['timestamp']}.`
+            ).addTo(layer);
         }
     }
 
