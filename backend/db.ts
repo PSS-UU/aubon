@@ -1,9 +1,9 @@
 import { Client } from 'pg';
 
 const client = new Client({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST || 'aubon-db',
+    user: process.env.DB_USER || 'aubon',
+    password: process.env.DB_PASSWORD || 'aubon',
     database: 'aubon',
     port: Number(process.env.DB_PORT) || 5432
 });

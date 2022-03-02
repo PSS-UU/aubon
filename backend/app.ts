@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { connect as db_connect, insertReport, getReports } from './database';
+import { connect as db_connect, insertReport, getReports } from './db';
 
 const app = express();
 const port = 3000;
