@@ -23,15 +23,7 @@ let centerCoords: Coordinate = {
     long: 17.6389242,
 }
 
-//TODO: Replace this list with an api call
-let reportList: Report[] = [
-    // { id: 1, rating: 0, time: "just now", image: null, longitude: 17.61, latitude: 59.861 },
-    // { id: 2, rating: 1, time: "just now", image: null, longitude: 17.62, latitude: 59.862 },
-    // { id: 3, rating: 2, time: "just now", image: null, longitude: 17.63, latitude: 59.863 },
-    // { id: 4, rating: 3, time: "yesterday", image: null, longitude: 17.65, latitude: 59.84 },
-    // { id: 5, rating: 4, time: "three hours ago", image: null, longitude: 17.59, latitude: 59.843 },
-    // { id: 6, rating: 5, time: "just now", image: null, longitude: 17.64, latitude: 59.865 },
-]
+let reportList: Report[] = []
 
 @Component({
     selector: 'app-map',
