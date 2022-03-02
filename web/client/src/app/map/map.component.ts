@@ -56,7 +56,7 @@ export class MapComponent implements AfterViewInit {
         var userMapIcon = L.icon({
             iconUrl: 'assets/images/user-astronaut-solid.svg',
             iconSize: [20, 20],
-            iconAnchor: [0, 10],
+            iconAnchor: [10, 10],
             popupAnchor: [0, -12],
         });
 
