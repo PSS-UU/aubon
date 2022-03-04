@@ -1,6 +1,21 @@
 # AUBON
 
-## Installing backend
+## Installing backend with docker (recommended)
+
+1. [Install docker](https://docs.docker.com/get-docker/). **NOTE!** If you are using WSL you have to manually start docker after installation `sudo service docker start`
+2. Build and start the backend with `docker-compose up -d --build`
+3. Setup the database `docker exec aubon-backend db-migrate up`
+4. The backend can be reached via `localhost:3000`
+
+### Handy commands
+- `docker logs -f aubon-backend` to see the output from the node server
+- `docker-compose restart` to restart the backend
+- `docker ps -a` to see if the backend and database is running
+- `docker exec aubon-backend ...` to execute a command in the container (e.g. npm install package_name).
+
+If a new package is installed via npm, the container has to be rebuiled `docker-compose up -d --build`
+
+## Installing backend manually (deprecated)
 
 1. Install postgresql
 
