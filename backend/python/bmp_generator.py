@@ -20,7 +20,8 @@ pixels = img.load()
 
 # map coordinates to respective pixel and set color to green with varying opacity
 for i in data['coordinates']:
-    pixels[i[0], min(i[1]+90, 179)] = (123, 173, 123, i[2]*30)
+    if (i[1] < -3 or i[1] > 3):
+        pixels[i[0], min(i[1]+90, 179)] = (123, 173, 123, i[2]*30)
 
 # Closing file
 f.close()
