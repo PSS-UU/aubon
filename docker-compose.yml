@@ -10,12 +10,13 @@ services:
   aubon-db:
     image: postgres:14.2-alpine3.15
     volumes:
-      - db_data:/var/lib/postgresql
+      - db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=aubon
       - POSTGRES_PASSWORD=aubon
       - POSTGRES_DB=aubon
       - POSTGRES_INITDB_ARGS=--lc-collate='sv_SE.UTF-8'
+      - PGDATA=/var/lib/postgresql/data/pgdata
     networks:
       - backend
 
