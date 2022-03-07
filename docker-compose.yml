@@ -23,7 +23,7 @@ services:
   aubon-backend:
     build:
       context: .
-      target: backend
+      target: dev
     volumes:
       - ./backend:/backend
     container_name: aubon-backend
