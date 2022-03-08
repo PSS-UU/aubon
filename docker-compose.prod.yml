@@ -4,6 +4,7 @@ services:
   aubon-backend:
     build:
       target: prod
+      dockerfile: Dockerfile.prod
     container_name: aubon-backend-prod
     image: aubon-backend-prod:1.0.0
   nginx:

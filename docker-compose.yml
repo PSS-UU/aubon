@@ -19,16 +19,9 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     networks:
       - backend
-
   aubon-backend:
     build:
-      context: .
-      dockerfile: backend/Dockerfile
-      target: dev
-    volumes:
-      - ./backend:/backend
-    container_name: aubon-backend
-    image: aubon-backend:1.0.0
+      context: backend
     depends_on:
       - "aubon-db"
     expose:
