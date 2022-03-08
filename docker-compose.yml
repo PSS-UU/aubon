@@ -12,8 +12,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=aubon
-      - POSTGRES_PASSWORD=aubon
+      - POSTGRES_USER=${DB_USER-aubon}
+      - POSTGRES_PASSWORD=${DB_PASSWORD-aubon}
       - POSTGRES_DB=aubon
       - POSTGRES_INITDB_ARGS=--lc-collate='sv_SE.UTF-8'
       - PGDATA=/var/lib/postgresql/data/pgdata
@@ -30,3 +30,6 @@ services:
       - '3000:3000'
     networks:
       - backend
+    environment:
+      - DB_USER=${DB_USER-aubon}
+      - DB_PASSWORD=${DB_PASSWORD-aubon}
