@@ -6,3 +6,7 @@ services:
       target: prod
     container_name: aubon-backend-prod
     image: aubon-backend-prod:1.0.0
+  nginx:
+    image: "nginx:1.21.6-alpine"
+    ports:
+      - 80:80
