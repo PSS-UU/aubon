@@ -23,6 +23,7 @@ services:
   aubon-backend:
     build:
       context: .
+      dockerfile: backend/Dockerfile
       target: dev
     volumes:
       - ./backend:/backend

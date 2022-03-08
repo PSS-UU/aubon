@@ -3,7 +3,7 @@ RUN apk update && apk add g++ make python3
 WORKDIR /backend
 RUN npm config set unsafe-perm true
 RUN npm i -g db-migrate
-COPY ./package*.json ./
+COPY ./backend/package*.json ./
 
 FROM base as dev
 RUN npm i
