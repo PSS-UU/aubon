@@ -8,6 +8,9 @@ services:
     container_name: aubon-backend-prod
     image: aubon-backend-prod:1.0.0
   nginx:
-    image: "nginx:1.21.6-alpine"
+    build: 
+      context: backend/nginx
     ports:
       - 80:80
+    networks:
+      - backend
