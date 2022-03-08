@@ -132,6 +132,6 @@ dist
 
 # Python
 backend/python/latest.json
-backend/python/borealis_cover.png
+backend/python/latest.png
 backend/python/history/*
 backend/python/venv
