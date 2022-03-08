@@ -1,6 +1,21 @@
 # AUBON
 
-## Installing backend
+## Installing backend with docker (recommended)
+
+1. [Install docker](https://docs.docker.com/get-docker/). **NOTE!** If you are using WSL you have to manually start docker after installation `sudo service docker start`
+2. Build and start the backend with `docker-compose up -d --build`
+3. Setup the database `docker exec aubon-backend db-migrate up`
+4. The backend can be reached via `localhost:3000`
+
+### Handy commands
+- `docker logs -f aubon-backend` to see the output from the node server
+- `docker-compose restart` to restart the backend
+- `docker ps -a` to see if the backend and database is running
+- `docker exec aubon-backend ...` to execute a command in the container (e.g. npm install package_name).
+
+If a new package is installed via npm, the container has to be rebuiled `docker-compose up -d --build`
+
+## Installing backend manually (deprecated)
 
 1. Install postgresql
 
@@ -20,16 +35,18 @@
     - DB_PORT: If you changed the default port (5432) during installation you need to enter that port here.
 5. Run `npm install`
 6. Install db-migrate `npm install -g db-migrate`
-7. Setup the database with `db-migrate up`
+7. Setup the database with `db-migrate up -e dev`
 8. Run `npm start` to start the server. 
 
 If you are running Ubuntu for Windows (WSL) you need to run `sudo service postgresql start` to start the database the first time you start your terminal.
 
-### Updating the database
+## Updating the database
 
 If you need to make a change to the database (add a column, add a key etc.) you do so with db-migrate. 
 With db-migrate you create `migrations` where you write the changes you want to make to the database.
 That way those changes can get committed and everyone can update their database to the correct version.
+
+**NOTE!** If you have installed the backend without docker you have to add `-e dev` to every db-migrate command.
 
 To create a migration, run `db-migrate create <name_of_the_migration_file>` which creates the migration file.
 Instructions for what to write in the migration can be found in their [documentation](https://db-migrate.readthedocs.io/en/latest/API/SQL/).
