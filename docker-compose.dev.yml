@@ -8,3 +8,5 @@ services:
       - ./backend:/backend
     container_name: aubon-backend
     image: aubon-backend:1.0.0
+    ports:
+      - '3000:3000'
