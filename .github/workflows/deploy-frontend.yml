@@ -25,10 +25,15 @@ jobs:
             token: '${{ secrets.FRONTEND_ENV_MAP_TOKEN }}'
           }" \
           > src/environments/environment.prod.ts
+      - name: ls
+        run: |
+          ls -laF .
+          ls -laF src
+          ls -laF src/environments
       - name: Npm install
         run: npm install
       - name: Build angular application
-        run: npx ng build
+        run: npx ng build --configuration production
       - name: Copy builded files to server with rsync
         uses: burnett01/rsync-deployments@5.2
         with:
