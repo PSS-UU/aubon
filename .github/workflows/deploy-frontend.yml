@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create environment folder
-        run: mkdir -p web/client/src/environments/
+        run: mkdir -p src/environments/
       - name: Create environment file
         run: |
           echo \
@@ -24,16 +24,16 @@ jobs:
             url: '${{ secrets.SERVER_HOST }}',
             token: '${{ secrets.FRONTEND_ENV_MAP_TOKEN }}'
           }" \
-          > web/client/src/environments/environment.prod.ts
+          > src/environments/environment.prod.ts
       - name: Npm install
-        run: cd web/client && npm install
+        run: npm install
       - name: Build angular application
         run: npx ng build
       - name: Copy builded files to server with rsync
         uses: burnett01/rsync-deployments@5.2
         with:
           switches: -avzr --delete
-          path: web/client/dist
+          path: dist/
           remote_path: /var/www/aubon/web
           remote_host: ${{ secrets.SERVER_HOST }}
           remote_user: ${{ secrets.SERVER_USERNAME }}
