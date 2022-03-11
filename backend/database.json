@@ -14,13 +14,6 @@
         "host": "aubon-db",
         "database": "aubon"
     },
-    "docker": {
-        "driver": "pg",
-        "user": "aubon",
-        "password": "aubon",
-        "host": "aubon-db",
-        "database": "aubon"
-    },
     "prod": {
         "driver": "pg",
         "user": {"ENV": "DB_USER"},
