@@ -31,6 +31,58 @@ class MyApp extends StatelessWidget {
               layers: [
                 TileLayerOptions(
                     urlTemplate: mapUrl, subdomains: ['a', 'b', 'c']),
+                MarkerLayerOptions(
+                  markers: [
+                    Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: LatLng(59.86, 17.62),
+                      builder: (ctx) => Container(
+                        child: Image.asset("images/reporticon0.png"),
+                      ),
+                    ),
+                    Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: LatLng(59.86, 17.61),
+                      builder: (ctx) => Container(
+                        child: Image.asset("images/reporticon1.png"),
+                      ),
+                    ),
+                    Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: LatLng(59.86, 17.60),
+                      builder: (ctx) => Container(
+                        child: Image.asset("images/reporticon2.png"),
+                      ),
+                    ),
+                    Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: LatLng(59.86, 17.59),
+                      builder: (ctx) => Container(
+                        child: Image.asset("images/reporticon3.png"),
+                      ),
+                    ),
+                    Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: LatLng(59.86, 17.58),
+                      builder: (ctx) => Container(
+                        child: Image.asset("images/reporticon4.png"),
+                      ),
+                    ),
+                    Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: LatLng(59.86, 17.57),
+                      builder: (ctx) => Container(
+                        child: Image.asset("images/reporticon5.png"),
+                      ),
+                    )
+                  ],
+                ),
                 OverlayImageLayerOptions(
                   overlayImages: [
                     OverlayImage(
