@@ -17,3 +17,5 @@ services:
       - backend
     depends_on:
       - aubon-backend
+    volumes:
+      - /var/www/aubon/web/client:/var/www/aubon/web/client
