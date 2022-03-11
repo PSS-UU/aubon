@@ -20,6 +20,12 @@ let centerCoords: Coordinate = {
     long: 17.6389242,
 }
 
+let coolDown = 0;
+
+setInterval(() => {
+    coolDown -= 1;
+}, 1000);
+
 let reportList: Report[] = []
 
 @Component({
@@ -34,11 +40,14 @@ export class FormComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.initForm();
-        const coord = this.getLocation();
+        let coord = this.getRandomLocation();
         async function sendReport(rating: number) {
+            //prevent spamming
+            if (coolDown >= 0) {return}
+            coolDown = 5;
             let body = new URLSearchParams({
-                'longitude': coord.lat.toString(),
-                'latitude': coord.long.toString(),
+                'latitude': coord.lat.toString(),
+                'longitude': coord.long.toString(),
                 'auroraRating': rating.toString(),
                 'userID': (1).toString(),
             });
@@ -52,18 +61,20 @@ export class FormComponent implements AfterViewInit {
             
             if (!response.ok) { /* Handle */ }
         }
+        document.getElementById('form')?.addEventListener("click", ()=>{
+            coord = this.getRandomLocation();
+            const rating: number = Number((<HTMLInputElement>document.getElementById('rating')).value);
+            sendReport(rating);
+            alert('Report sent!');
+        });
     }
 
 
-    getLocation(): Coordinate {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                return { lat: position.coords.longitude, long: position.coords.latitude};
-            });
-        } else {
-            console.log("No support for geolocation")
-        }
-        return({lat:0, long:0});
+    getRandomLocation(): Coordinate {
+        return {
+            lat: centerCoords.lat + (Math.random() - 0.5)/2,
+            long: centerCoords.long + (Math.random() - 0.5)
+        };
     }
 
 }
