@@ -36,4 +36,4 @@ jobs:
             ln -sfn releases/${{ github.sha }} current
             cd current
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-            docker exec aubon-backend-prod db-migrate up -e prod
+            docker exec aubon-backend db-migrate up -e prod
