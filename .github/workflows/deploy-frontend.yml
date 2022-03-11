@@ -22,8 +22,8 @@ jobs:
           echo \
           "export const environment = {
             production: true,
-            path_to_aurora_overlay: '${{ secrets.SERVER_HOST }}/latest.png',
-            url: '${{ secrets.SERVER_HOST }}',
+            path_to_aurora_overlay: 'http://${{ secrets.SERVER_HOST }}/latest.png',
+            url: 'http://${{ secrets.SERVER_HOST }}',
             token: '${{ secrets.FRONTEND_ENV_MAP_TOKEN }}'
           }" \
           > src/environments/environment.prod.ts
