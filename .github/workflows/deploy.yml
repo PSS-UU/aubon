@@ -1,7 +1,8 @@
 name: Deploy
 
 on:
-  workflow_dispatch:
+  push:
+    branches: ["feat/production-docker"]
 
 jobs:
   deploy:
@@ -19,7 +20,7 @@ jobs:
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           passphrase: ${{ secrets.SERVER_PASSWORD }}
           source: ${{ github.sha }}.tar.gz
-          target: /var/www/aubon/
+          target: /var/www/aubon/releases/${{ github.sha }}
       - name: Start docker container
         uses: appleboy/ssh-action@master
         with:
@@ -28,8 +29,11 @@ jobs:
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           passphrase: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            cd /var/www/aubon
+            cd /var/www/aubon/releases/${{ github.sha }}
             tar xzf "${{ github.sha }}".tar.gz
             rm "${{ github.sha }}".tar.gz
+            cd /var/www/aubon
+            ln -s releases/${{ github.sha }} current
+            cd current
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-            docker exec aubon-backend-prod db-migrate up
+            docker exec aubon-backend-prod db-migrate up -e prod
