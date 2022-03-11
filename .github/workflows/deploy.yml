@@ -1,9 +1,7 @@
-name: Deploy
+name: Deploy Backend
 
 on:
-  push:
-    branches: ["feat/web-production-docker"]
-  # workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   deploy-backend:
@@ -38,35 +36,3 @@ jobs:
             cd current
             docker-compose -p aubon -f docker-compose.yml -f docker-compose.prod.yml up -d --build
             docker exec aubon-backend-prod db-migrate up -e prod
-  deploy-frontend:
-    name: Deploy Frontend to server
-    needs: deploy-backend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create environment folder
-        run: mkdir -p web/client/src/environments/
-      - name: Create environment file
-        run: |
-          echo \
-          "export const environment = {
-            production: true,
-            path_to_aurora_overlay: '${{ secrets.SERVER_HOST }}/latest.png',
-            url: '${{ secrets.SERVER_HOST }}',
-            token: '${{ secrets.FRONTEND_ENV_MAP_TOKEN }}'
-          }" \
-          > web/client/src/environments/environment.prod.ts
-      - name: Npm install
-        run: cd web/client && npm install
-      - name: Build angular application
-        run: npx ng build
-      - name: Copy builded files to server with rsync
-        uses: burnett01/rsync-deployments@5.2
-        with:
-          switches: -avzr --delete
-          path: web/client/dist
-          remote_path: /var/www/aubon/web
-          remote_host: ${{ secrets.SERVER_HOST }}
-          remote_user: ${{ secrets.SERVER_USERNAME }}
-          remote_key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          remote_key_pass: ${{ secrets.SERVER_PASSWORD }}
