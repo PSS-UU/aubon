@@ -33,7 +33,7 @@ jobs:
             tar xzf "${{ github.sha }}".tar.gz
             rm "${{ github.sha }}".tar.gz
             cd /var/www/aubon
-            ln -s releases/${{ github.sha }} current
+            ln -sfn releases/${{ github.sha }} current
             cd current
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
             docker exec aubon-backend-prod db-migrate up -e prod
