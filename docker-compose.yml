@@ -23,7 +23,7 @@ services:
     build:
       context: backend
     depends_on:
-      - "aubon-db"
+      - 'aubon-db'
     expose:
       - '3000'
     networks:
