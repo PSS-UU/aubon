@@ -1,9 +1,7 @@
 name: Deploy
 
 on:
-  push: 
-    branches: ['feat/production-docker']
-  # workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   deploy:
