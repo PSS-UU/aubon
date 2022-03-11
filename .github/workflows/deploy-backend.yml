@@ -1,8 +1,7 @@
 name: Deploy Backend
 
 on:
-  push:
-    branches: ["feat/web-production-docker"]
+  workflow_dispatch:
 
 jobs:
   deploy-backend:

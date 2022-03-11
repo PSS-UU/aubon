@@ -1,8 +1,7 @@
 name: Deploy Frontend
 
 on:
-  push:
-    branches: ["feat/web-production-docker"]
+  workflow_dispatch:
 
 jobs:  
   deploy-frontend:
