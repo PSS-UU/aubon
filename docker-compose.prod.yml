@@ -19,3 +19,4 @@ services:
       - aubon-backend
     volumes:
       - /var/www/aubon/web/client:/var/www/aubon/web/client
+      - /etc/letsencrypt/:/etc/letsencrypt:ro
