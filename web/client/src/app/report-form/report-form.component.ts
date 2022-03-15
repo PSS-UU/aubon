@@ -43,7 +43,10 @@ export class FormComponent implements AfterViewInit {
         let coord = this.getRandomLocation();
         async function sendReport(rating: number) {
             //prevent spamming
-            if (coolDown >= 0) {return}
+            if (coolDown >= 0) {
+                alert('You can only send a report every five seconds');
+                return;
+            }
             coolDown = 5;
             let body = new URLSearchParams({
                 'latitude': coord.lat.toString(),
