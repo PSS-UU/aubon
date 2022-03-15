@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Secondpage.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'dart:async';
 
 Future<String> getReports() async {
   Uri url = Uri.parse('https://aubon.platform-spanning.systems/get-reports');
@@ -24,6 +25,7 @@ class _MapWidgetState extends State<MapWidget> {
   static var mapUrl =
       "https://api.mapbox.com/styles/v1/albinantti/ckzh3jx4r009q14l8eb32614u/tiles/{z}/{x}/{y}?access_token=" +
           token!;
+  Timer? timer;
 
   String getIconName(int rating) {
     switch (rating) {
@@ -44,7 +46,7 @@ class _MapWidgetState extends State<MapWidget> {
     }
   }
 
-  _MapWidgetState() {
+  void displayReportMarkers() {
     getReports().then((reports) {
       dynamic reportsJson = jsonDecode(reports);
 
@@ -63,6 +65,20 @@ class _MapWidgetState extends State<MapWidget> {
         markers = newMarkers;
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    displayReportMarkers();
+    timer = Timer.periodic(
+        Duration(seconds: 1), (Timer t) => displayReportMarkers());
+
+    @override
+    void dispose() {
+      timer?.cancel();
+      super.dispose();
+    }
   }
 
   @override
