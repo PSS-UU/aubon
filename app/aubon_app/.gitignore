@@ -46,7 +46,7 @@ app.*.map.json
 /android/app/release
 
 # dotenv environment variable files
-.env
+*.env
 .env.development.local
 .env.test.local
 .env.production.local
