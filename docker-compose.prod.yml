@@ -13,7 +13,11 @@ services:
     image: aubon-nginx:1.0.0
     ports:
       - 80:80
+      - 443:443
     networks:
       - backend
     depends_on:
       - aubon-backend
+    volumes:
+      - /var/www/aubon/web/client:/var/www/aubon/web/client
+      - /etc/letsencrypt/:/etc/letsencrypt:ro

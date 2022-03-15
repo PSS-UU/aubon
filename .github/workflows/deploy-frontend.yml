@@ -1,0 +1,42 @@
+name: Deploy Frontend
+
+on:
+  workflow_dispatch:
+
+jobs:  
+  deploy-frontend:
+    name: Deploy Frontend to server
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web/client
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create environment folder
+        run: mkdir -p src/environments/
+      - name: Create empty normal environment file
+        run: touch src/environments/environment.ts
+      - name: Create environment file
+        run: |
+          echo \
+          "export const environment = {
+            production: true,
+            path_to_aurora_overlay: 'https://${{ secrets.SERVER_HOST }}/latest.png',
+            url: 'https://${{ secrets.SERVER_HOST }}',
+            token: '${{ secrets.FRONTEND_ENV_MAP_TOKEN }}'
+          }" \
+          > src/environments/environment.prod.ts
+      - name: Npm install
+        run: npm install
+      - name: Build angular application
+        run: npx ng build --configuration production
+      - name: Copy builded files to server with rsync
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr --delete
+          path: web/client/dist/
+          remote_path: /var/www/aubon/web
+          remote_host: ${{ secrets.SERVER_HOST }}
+          remote_user: ${{ secrets.SERVER_USERNAME }}
+          remote_key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          remote_key_pass: ${{ secrets.SERVER_PASSWORD }}
