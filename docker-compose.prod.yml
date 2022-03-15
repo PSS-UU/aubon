@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  aubon-backend:
+    build:
+      dockerfile: Dockerfile.prod
+    container_name: aubon-backend-prod
+    image: aubon-backend-prod:1.0.0
+  nginx:
+    build:
+      context: backend/nginx
+    container_name: aubon-nginx
+    image: aubon-nginx:1.0.0
+    ports:
+      - 80:80
+    networks:
+      - backend
+    depends_on:
+      - aubon-backend

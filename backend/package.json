@@ -9,10 +9,10 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "@types/pg": "^8.6.4"
   },
   "dependencies": {
-    "@types/pg": "^8.6.4",
     "body-parser": "^1.19.0",
     "db-migrate": "^0.11.13",
     "db-migrate-pg": "^1.2.2",
@@ -23,6 +23,7 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "nodemon -L app.ts",
+    "build": "tsc",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
