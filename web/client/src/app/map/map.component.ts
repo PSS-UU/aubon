@@ -89,7 +89,7 @@ export class MapComponent implements AfterViewInit {
             { icon: userMapIcon }
         )
 
-        interval(5000).subscribe(x => {
+        interval(1000).subscribe(x => {
             reportLayer.clearLayers();
             loadReports();
             this.getLocation();
