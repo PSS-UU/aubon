@@ -3,9 +3,55 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Secondpage.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
+
+Future<Response> getReports() async {
+  Uri url = Uri.parse('http://localhost:3000/get-reports');
+  Response response = await get(url);
+  print('Status code: ${response.statusCode}');
+  print('Headers: ${response.headers}');
+  print('Body: ${response.body}');
+  return response;
+}
+/*
+Future<Response> createReport(String title) {
+  return post(
+    Uri.parse('http://localhost:3000/send-reports'),
+    headers: <String, String>{
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: jsonEncode(<String, String>{
+      'title': title,
+    }),
+  );
+}*/
+
+class Report {
+  final double longitude;
+  final double latitude;
+  final int auroraRating;
+  final int userid;
+
+  const Report(
+      {required this.longitude,
+      required this.latitude,
+      required this.auroraRating,
+      required this.userid});
+
+  factory Report.fromJson(Map<String, dynamic> json) {
+    return Report(
+      longitude: json['longitude'],
+      latitude: json['latitude'],
+      auroraRating: json['auroraRating'],
+      userid: json['userid'],
+    );
+  }
+}
 
 Future<void> main() async {
   await dotenv.load(fileName: "environment.env");
+  getReports();
   runApp(MaterialApp(home: MyApp()));
 }
 
