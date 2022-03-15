@@ -6,46 +6,83 @@ import 'Secondpage.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-Future<Response> getReports() async {
-  Uri url = Uri.parse('http://localhost:3000/get-reports');
+Future<String> getReports() async {
+  Uri url = Uri.parse('https://aubon.platform-spanning.systems/get-reports');
   Response response = await get(url);
-  print('Status code: ${response.statusCode}');
-  print('Headers: ${response.headers}');
-  print('Body: ${response.body}');
-  return response;
+  return response.body;
 }
-/*
-Future<Response> createReport(String title) {
-  return post(
-    Uri.parse('http://localhost:3000/send-reports'),
-    headers: <String, String>{
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: jsonEncode(<String, String>{
-      'title': title,
-    }),
-  );
-}*/
 
-class Report {
-  final double longitude;
-  final double latitude;
-  final int auroraRating;
-  final int userid;
+class MapWidget extends StatefulWidget {
+  const MapWidget({Key? key}) : super(key: key);
+  @override
+  _MapWidgetState createState() => _MapWidgetState();
+}
 
-  const Report(
-      {required this.longitude,
-      required this.latitude,
-      required this.auroraRating,
-      required this.userid});
+class _MapWidgetState extends State<MapWidget> {
+  List<Marker> markers = [];
+  static var token = dotenv.env['token'];
+  static var mapUrl =
+      "https://api.mapbox.com/styles/v1/albinantti/ckzh3jx4r009q14l8eb32614u/tiles/{z}/{x}/{y}?access_token=" +
+          token!;
 
-  factory Report.fromJson(Map<String, dynamic> json) {
-    return Report(
-      longitude: json['longitude'],
-      latitude: json['latitude'],
-      auroraRating: json['auroraRating'],
-      userid: json['userid'],
-    );
+  String getIconName(int rating) {
+    switch (rating) {
+      case 0:
+        return 'reporticon0';
+      case 1:
+        return 'reporticon1';
+      case 2:
+        return 'reporticon2';
+      case 3:
+        return 'reporticon3';
+      case 4:
+        return 'reporticon4';
+      case 5:
+        return 'reporticon5';
+      default:
+        return 'reporticon0';
+    }
+  }
+
+  _MapWidgetState() {
+    getReports().then((reports) {
+      dynamic reportsJson = jsonDecode(reports);
+
+      List<Marker> newMarkers = [];
+      for (var report in reportsJson) {
+        Marker marker = Marker(
+            width: 30.0,
+            height: 30.0,
+            point: LatLng(double.parse(report["latitude"]),
+                double.parse(report["longitude"])),
+            builder: (ctx) => Image.asset(
+                "images/" + getIconName(report['rating']) + ".png"));
+        newMarkers.add(marker);
+      }
+      setState(() {
+        markers = newMarkers;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlutterMap(
+        options: MapOptions(
+            center: LatLng(59.86, 17.63), maxZoom: 16.0, minZoom: 3, zoom: 8),
+        layers: [
+          TileLayerOptions(urlTemplate: mapUrl, subdomains: ['a', 'b', 'c']),
+          MarkerLayerOptions(markers: markers),
+          OverlayImageLayerOptions(
+            overlayImages: [
+              OverlayImage(
+                bounds: LatLngBounds(LatLng(90, -180), LatLng(-90, 180)),
+                imageProvider: NetworkImage(dotenv.env['auroraImageUrl'] ?? ""),
+                opacity: 0.7,
+              )
+            ],
+          )
+        ]);
   }
 }
 
@@ -57,10 +94,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  static var token = dotenv.env['token'];
-  static var mapUrl =
-      "https://api.mapbox.com/styles/v1/albinantti/ckzh3jx4r009q14l8eb32614u/tiles/{z}/{x}/{y}?access_token=" +
-          token!;
 
   @override
   Widget build(BuildContext context) {
@@ -71,76 +104,7 @@ class MyApp extends StatelessWidget {
             title: const Text('Aubon'),
           ),
           body: Stack(children: <Widget>[
-            FlutterMap(
-              options: MapOptions(
-                  center: LatLng(59.86, 17.63), maxZoom: 20.0, minZoom: 1.5),
-              layers: [
-                TileLayerOptions(
-                    urlTemplate: mapUrl, subdomains: ['a', 'b', 'c']),
-                MarkerLayerOptions(
-                  markers: [
-                    Marker(
-                      width: 50.0,
-                      height: 50.0,
-                      point: LatLng(59.86, 17.62),
-                      builder: (ctx) => Container(
-                        child: Image.asset("images/reporticon0.png"),
-                      ),
-                    ),
-                    Marker(
-                      width: 50.0,
-                      height: 50.0,
-                      point: LatLng(59.86, 17.61),
-                      builder: (ctx) => Container(
-                        child: Image.asset("images/reporticon1.png"),
-                      ),
-                    ),
-                    Marker(
-                      width: 50.0,
-                      height: 50.0,
-                      point: LatLng(59.86, 17.60),
-                      builder: (ctx) => Container(
-                        child: Image.asset("images/reporticon2.png"),
-                      ),
-                    ),
-                    Marker(
-                      width: 50.0,
-                      height: 50.0,
-                      point: LatLng(59.86, 17.59),
-                      builder: (ctx) => Container(
-                        child: Image.asset("images/reporticon3.png"),
-                      ),
-                    ),
-                    Marker(
-                      width: 50.0,
-                      height: 50.0,
-                      point: LatLng(59.86, 17.58),
-                      builder: (ctx) => Container(
-                        child: Image.asset("images/reporticon4.png"),
-                      ),
-                    ),
-                    Marker(
-                      width: 50.0,
-                      height: 50.0,
-                      point: LatLng(59.86, 17.57),
-                      builder: (ctx) => Container(
-                        child: Image.asset("images/reporticon5.png"),
-                      ),
-                    )
-                  ],
-                ),
-                OverlayImageLayerOptions(
-                  overlayImages: [
-                    OverlayImage(
-                      bounds: LatLngBounds(LatLng(90, -180), LatLng(-90, 180)),
-                      imageProvider:
-                          NetworkImage(dotenv.env['auroraImageUrl'] ?? ""),
-                      opacity: 0.7,
-                    )
-                  ],
-                )
-              ],
-            ),
+            MapWidget(),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
