@@ -182,11 +182,14 @@ export class MapComponent implements AfterViewInit {
 
     drawReports(reports: Report[], layer: any) {
         for (const index in reports) {
+            let time = new Date(reports[index]['timestamp'])
+            let hours = ("0" + time.getHours()).slice(-2);
+            let minutes = ("0" + time.getMinutes()).slice(-2);
             L.marker([reports[index]['latitude'], reports[index]['longitude']]
             ).setIcon(
                 this.selectIcon(reports[index]['rating'])
             ).bindPopup(
-                `${reports[index]['rating']}/5 reported ${reports[index]['timestamp']}.`
+                `${reports[index]['rating']}/5 reported at ${hours}:${minutes}.`
             ).addTo(layer);
         }
     }
